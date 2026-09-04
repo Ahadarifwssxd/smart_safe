@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($dart = \"C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe\"; & $dart run tool/generate_app_icon.dart)",
+      "PowerShell(explorer .)",
+      "PowerShell(flutter build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE ===\"; $f = Get-Item \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\"; Write-Output \\(\"Desktop APK: {0:N1} MB - {1}\" -f \\($f.Length/1MB\\), $f.LastWriteTime\\) })",
+      "PowerShell(flutter build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - COPIED TO DESKTOP ===\" } else { Write-Output \"=== BUILD FAILED ===\" })",
+      "PowerShell($fb = \\(Get-Command firebase -ErrorAction SilentlyContinue\\); if \\($fb\\) { Write-Output \"Firebase CLI: $\\($fb.Source\\)\"; Test-Path firebase.json | ForEach-Object { Write-Output \"firebase.json exists: $_\" } } else { Write-Output \"Firebase CLI NOT installed\" }; Test-Path firebase.json)",
+      "PowerShell(firebase deploy --only firestore:rules 2>&1)",
+      "PowerShell(flutter build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - Desktop updated ===\" } else { Write-Output \"=== BUILD FAILED ===\" })",
+      "PowerShell(C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe analyze \"lib\\\\pages\\\\15_emergency_will_page.dart\" \"lib\\\\Dashboard\\\\screens\\\\emergency_will\\\\emergency_will_screen.dart\" \"lib\\\\Dashboard\\\\services\\\\firebase_service.dart\")",
+      "PowerShell(C:\\\\flutter\\\\bin\\\\flutter.bat build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - Desktop updated ===\" })",
+      "PowerShell($out = C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe analyze lib\\\\pages lib\\\\widgets 2>&1; \\($out | Select-String -Pattern '\\(error|warning\\) -'\\); \"----\"; \\($out | Select-Object -Last 1\\))",
+      "PowerShell(C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe run flutter_launcher_icons; if \\($?\\) { Write-Output \"ICONS_DONE\"; C:\\\\flutter\\\\bin\\\\flutter.bat build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - Desktop updated ===\" } })",
+      "PowerShell(C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe run tool/generate_app_icon.dart; if \\($?\\) { Write-Output \"LOGO_DONE\"; C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe run flutter_launcher_icons; if \\($?\\) { Write-Output \"ICONS_DONE\"; C:\\\\flutter\\\\bin\\\\flutter.bat build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - Desktop updated ===\" } } })"
+    ]
+  }
+}

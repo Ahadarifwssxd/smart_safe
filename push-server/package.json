@@ -1,0 +1,9 @@
+{
+  "name": "smartsafe-push",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Free Vercel endpoint that sends SmartSafe SOS push notifications to contacts even when their app is closed.",
+  "dependencies": {
+    "firebase-admin": "^12.7.0"
+  }
+}

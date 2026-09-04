@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ── Pre-signup verification (written/read BEFORE the user is signed in) ──
+    match /email_verifications/{docId} {
+      allow read, write: if true;
+    }
+    match /phone_verifications/{docId} {
+      allow read, write: if true;
+    }
+
+    // ── User profiles ──
+    match /users/{userId} {
+      allow read: if true; // needed for phone→uid lookup (Family Radar) + contacts
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ── Presence / online status ──
+    match /presence/{userId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isOwner(userId);
+    }
+    match /presence_by_phone/{phoneKey} {
+      allow read: if signedIn();
+      allow create, update: if signedIn()
+        && request.resource.data.uid == request.auth.uid;
+      allow delete: if signedIn()
+        && resource.data.uid == request.auth.uid;
+    }
+
+    // ── PRIVATE: Emergency Info (CNIC, medical, financial, legal) ──
+    // Only the owner (or an admin) may ever read or write this sensitive data.
+    match /emergency_info/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+    }
+
+    // ── App + admin dashboard collections (signed-in users) ──
+    // Recursive wildcard (=**) also covers any subcollections (e.g. chat messages).
+    match /emergency_contacts/{path=**}  { allow read, write: if signedIn(); }
+    match /safe_checkins/{path=**}       { allow read, write: if signedIn(); }
+    match /sos_events/{path=**}          { allow read, write: if signedIn(); }
+    match /sos_alerts/{path=**}          { allow read, write: if signedIn(); }
+    match /alerts/{path=**}              { allow read, write: if signedIn(); }
+    match /contacts/{path=**}            { allow read, write: if signedIn(); }
+    match /incident_reports/{path=**}    { allow read, write: if signedIn(); }
+    match /route_hazards/{path=**}       { allow read, write: if signedIn(); }
+    match /danger_zones/{path=**}        { allow read, write: if signedIn(); }
+    match /live_tracking/{path=**}       { allow read, write: if signedIn(); }
+    match /evidences/{path=**}           { allow read, write: if signedIn(); }
+    match /notifications/{path=**}       { allow read, write: if signedIn(); }
+    match /app_notifications/{path=**}   { allow read, write: if signedIn(); }
+    match /safety_tips/{path=**}         { allow read, write: if signedIn(); }
+    match /user_chats/{path=**}          { allow read, write: if signedIn(); }
+    match /app_sections/{path=**}        { allow read, write: if signedIn(); }
+    match /app_section_items/{path=**}   { allow read, write: if signedIn(); }
+    match /admin_config/{path=**}        { allow read, write: if signedIn(); }
+
+    // ── Admin-managed CONTENT (edited from the dashboard, shown in the app) ──
+    // These had NO rule, so every write was denied — which is why "Edit" in the
+    // dashboard (Women Safety, Panic tools, Onboarding, Hand signals, Safety
+    // guides, page content, chatbot FAQ, emergency numbers) silently failed to
+    // save. Read is open so the app can show live content even before sign-in;
+    // writes require a signed-in (admin) user.
+    match /women_safety_items/{path=**} { allow read: if true; allow write: if signedIn(); }
+    match /panic_tools/{path=**}        { allow read: if true; allow write: if signedIn(); }
+    match /onboarding_slides/{path=**}  { allow read: if true; allow write: if signedIn(); }
+    match /hand_signals/{path=**}       { allow read: if true; allow write: if signedIn(); }
+    match /safety_guides/{path=**}      { allow read: if true; allow write: if signedIn(); }
+    match /emergency_numbers/{path=**}  { allow read: if true; allow write: if signedIn(); }
+    match /emergency_info_public/{path=**} { allow read: if true; allow write: if signedIn(); }
+    match /page_content/{path=**}       { allow read: if true; allow write: if signedIn(); }
+    match /chatbot_faq/{path=**}        { allow read: if true; allow write: if signedIn(); }
+    // Emergency Will FIELD DEFINITIONS (admin configures the form; app reads it).
+    match /emergency_will_fields/{path=**} { allow read: if true; allow write: if signedIn(); }
+    match /app_feedback/{path=**}       { allow read, write: if signedIn(); }
+    match /feedback/{path=**}           { allow read, write: if signedIn(); }
+  }
+}

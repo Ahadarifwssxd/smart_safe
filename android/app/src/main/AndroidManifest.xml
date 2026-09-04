@@ -1,0 +1,113 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Location Permissions (required for geolocator) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Background location — needed so SOS tracking continues when screen is off -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <!-- SOS: Direct phone call from SIM card (no Twilio needed) -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- SOS: Send SMS directly from SIM card -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- SOS: notify the user on their own phone when an alert is sent/cancelled -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Evidence: record voice notes -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Always-on crash/shake SOS: run detection as a foreground service so it
+         keeps working even when the app is closed (flutter_background_service). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- "location" foreground-service type: far more compatible with aggressive
+         OEMs (MIUI/Xiaomi, ColorOS, Funtouch) than "specialUse", which they
+         reject at startForeground() and crash the app. The SOS genuinely uses
+         location, so this type is valid. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Ask the OS to exempt us from battery optimisation so the OEM doesn't
+         kill crash/shake detection while the app is closed. -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- Let SOS alerts pop OVER other apps / on the lock screen (heads-up +
+         full-screen intent) so a nearby emergency is never missed. -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
+    <application
+        android:label="SmartSafe"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. After that, this theme continues
+                 to determine the Window background behind the Flutter UI. -->
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!-- FCM: when an SOS push arrives while the app is closed, the system
+             renders it on this high-importance channel (created at startup in
+             LocalNotificationService) so it shows as a heads-up alert. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="sos_alerts" />
+
+        <!-- Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
+        <!-- flutter_background_service declares this service WITHOUT a
+             foregroundServiceType. On Android 14+ (API 34) a foreground service
+             MUST declare its type or startForeground() throws and the whole
+             crash/shake-while-closed feature silently dies. We merge in the
+             "specialUse" type + the required subtype property so the protection
+             service can actually start on modern Android. -->
+        <service
+            android:name="id.flutter.flutter_background_service.BackgroundService"
+            android:foregroundServiceType="location"
+            tools:node="merge" />
+
+        <!-- NATIVE shake/crash detector. Flutter's background isolate does not
+             reliably receive accelerometer events once the app is closed, so the
+             SensorEventListener runs here instead, inside a foreground service
+             holding a partial wake lock. On a detection it fires a full-screen
+             notification that launches MainActivity with a "sos_kind" extra. -->
+        <service
+            android:name=".SosSensorService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+    </application>
+    <!-- Required to query activities that can process text, see:
+         https://developer.android.com/training/package-visibility and
+         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
+</manifest>

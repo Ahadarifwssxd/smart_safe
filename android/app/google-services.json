@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "1095358418186",
+    "project_id": "smartsafe-c33bc",
+    "storage_bucket": "smartsafe-c33bc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095358418186:android:df7857a37c42d905df3ef3",
+        "android_client_info": {
+          "package_name": "com.example.smart_safe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095358418186-66i2216747g38abgvu6vklqm1g21tcqh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smart_safe",
+            "certificate_hash": "c5576a511c2fe7b38f2901a80248fd44d68f7f48"
+          }
+        },
+        {
+          "client_id": "1095358418186-ikgqv4c4qj6vp4edo10jndm026vqdp1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smart_safe",
+            "certificate_hash": "8c8fd7b6a341c405b4c5abfd3b71c2136aec51d4"
+          }
+        },
+        {
+          "client_id": "1095358418186-vu2k8atrb4ok2cubkvgq4mhl6imvv644.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDYIyCut7n3yI4YKIwpw9bdjhnAq_HHjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095358418186-vu2k8atrb4ok2cubkvgq4mhl6imvv644.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1095358418186-d4m17p7e0tn7cjvo12v5omodsbe1517h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.smartSafe"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,10 @@
+node_modules/
+.vercel/
+# NEVER commit the Firebase service account key
+*serviceAccount*.json
+*service-account*.json
+*.pem
+.env
+.env*.local
+
+.vercel

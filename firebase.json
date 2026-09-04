@@ -1,0 +1,32 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": {
+    "source": "functions"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "smartsafe-c33bc",
+          "appId": "1:1095358418186:android:df7857a37c42d905df3ef3",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "smartsafe-c33bc",
+          "configurations": {
+            "android": "1:1095358418186:android:df7857a37c42d905df3ef3",
+            "ios": "1:1095358418186:ios:0e1c0dea403fcb73df3ef3",
+            "web": "1:1095358418186:web:3e09d10673198b99df3ef3"
+          }
+        }
+      }
+    }
+  }
+}

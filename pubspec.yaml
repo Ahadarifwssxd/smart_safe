@@ -1,0 +1,93 @@
+name: smartsafe
+description: SmartSafe — One Tap Emergency App
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  google_fonts: ^6.2.1
+  intl: ^0.18.1
+  provider: ^6.1.5+1
+  firebase_core: ^4.9.0
+  cloud_firestore: ^6.4.1
+  firebase_auth: ^6.5.1
+  google_sign_in: ^7.2.0
+  http: ^1.2.2
+  emailjs: ^4.0.0
+  firebase_storage: ^13.4.1
+  image_picker: ^1.1.2
+  shared_preferences: ^2.5.5
+  geolocator: ^13.0.2
+  flutter_map: ^5.0.0
+  latlong2: ^0.9.0
+  connectivity_plus: ^5.0.0
+  torch_light: ^1.1.0
+  audioplayers: ^6.1.0
+  sensors_plus: ^4.0.2
+  intl_phone_field: ^3.2.0
+  geocoding: ^3.0.0
+  uuid: ^4.3.3
+  firebase_messaging: ^16.4.1
+  cloud_functions: ^6.3.3
+  flutter_phone_direct_caller: ^2.2.1
+  # Replaces the abandoned flutter_sms (v1-embedding, no silent send). Sends
+  # REAL SMS directly from the SIM via SmsManager — keeps the silent SOS dispatch.
+  another_telephony: ^0.4.0
+  flutter_local_notifications: ^17.2.3
+  permission_handler: ^11.3.1
+  flutter_tts: ^4.2.0
+  url_launcher: ^6.3.0
+  # Share evidence (photo / video / voice note) via the OS share sheet.
+  # 10.x uses mime ^2.0.0 (compatible with firebase_storage) and still exposes
+  # the Share.shareXFiles API this app uses.
+  share_plus: ^10.0.3
+  record: ^6.0.0
+  path_provider: ^2.1.4
+  # Keeps shake/crash detection alive when the app is backgrounded or closed
+  # (Android foreground service with a persistent notification).
+  flutter_background_service: ^5.1.0
+  # RevenueCat — handles Google Play Billing, receipt validation, and
+  # subscription lifecycle (renewals, cancellations, refunds) so we don't
+  # have to write our own Cloud Functions. Free up to ~$2.5k monthly revenue.
+  purchases_flutter: ^8.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  # Generates all Android/iOS/web launcher-icon sizes from one source PNG.
+  # Run after placing your icon: flutter pub run flutter_launcher_icons
+  flutter_launcher_icons: ^0.13.1
+  # Pure-Dart image lib — used by tool/generate_app_icon.dart to render the
+  # launcher icon programmatically (no external designer / image needed).
+  image: ^4.2.0
+
+# App launcher icon. Drop your 1024x1024 PNG at assets/icon/app_icon.png,
+# then run: flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  # Adaptive icon (Android 8+): red matching the icon tile, so the
+  # rounded/circular mask never shows mismatched corners around it.
+  adaptive_icon_background: "#EF4444"
+  adaptive_icon_foreground: "assets/icon/app_icon.png"
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/app_icon.png
+    - assets/sounds/siren1.wav
+    - assets/sounds/siren2.wav
+    - assets/sounds/bell.wav
+    - assets/sounds/beep.wav
+    - assets/sounds/ringtone.wav
+

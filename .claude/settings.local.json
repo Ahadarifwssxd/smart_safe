@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze *)",
+      "Bash(cd \"c:/Users/HP Elitebook 820 G3/Downloads/SmartSafe_f4\" && ls \".claude/projects/c--Users-HP-Elitebook-820-G3-Downloads-SmartSafe-f4-smart-safe/memory/\" 2>/dev/null; echo \"---\"; cat \".claude/projects/c--Users-HP-Elitebook-820-G3-Downloads-SmartSafe-f4-smart-safe/memory/MEMORY.md\" 2>/dev/null | head)",
+      "Read(//c/Users/HP Elitebook 820 G3/Downloads/SmartSafe_f4/**)",
+      "Bash(dart analyze *)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Microsoft\\\\jdk-17.0.19.10-hotspot\"; $env:Path = \"$env:JAVA_HOME\\\\bin;$env:Path\"; Set-Location \"C:\\\\Users\\\\HP Elitebook 820 G3\\\\Downloads\\\\SmartSafe_f4\\\\smart_safe\"; flutter build apk --release 2>&1 | Tee-Object -FilePath build_apk_log.txt | Out-Null; Write-Output \"EXITCODE=$LASTEXITCODE\"; Get-Content build_apk_log.txt -Tail 25)",
+      "Bash(firebase --version)",
+      "Bash(firebase projects:list)",
+      "Read(//tmp/**)",
+      "Bash(flutter build *)",
+      "PowerShell(flutter build apk --release --target-platform android-arm,android-arm64 2>&1 | Tee-Object -FilePath build_apk_arm_log.txt | Out-Null; \"EXITCODE=$LASTEXITCODE\")",
+      "PowerShell(C:\\\\flutter\\\\bin\\\\flutter.bat build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - Desktop updated ===\" })",
+      "PowerShell(C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe run flutter_launcher_icons; if \\($?\\) { Write-Output \"ICONS_DONE\"; C:\\\\flutter\\\\bin\\\\flutter.bat build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - Desktop updated ===\" } })",
+      "PowerShell(C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe run tool/generate_app_icon.dart; if \\($?\\) { Write-Output \"LOGO_DONE\"; C:\\\\flutter\\\\bin\\\\cache\\\\dart-sdk\\\\bin\\\\dart.exe run flutter_launcher_icons; if \\($?\\) { Write-Output \"ICONS_DONE\"; C:\\\\flutter\\\\bin\\\\flutter.bat build apk --release; if \\($?\\) { Copy-Item \"build\\\\app\\\\outputs\\\\flutter-apk\\\\app-release.apk\" \"$env:USERPROFILE\\\\Desktop\\\\SmartSafe.apk\" -Force; Write-Output \"=== DONE - Desktop updated ===\" } } })"
+    ]
+  }
+}
